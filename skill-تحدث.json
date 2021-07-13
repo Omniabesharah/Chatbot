@@ -1,0 +1,281 @@
+{
+  "intents": [
+    {
+      "intent": "ترحيب",
+      "examples": [
+        {
+          "text": "hello"
+        },
+        {
+          "text": "السلام عليكم"
+        },
+        {
+          "text": "مرحبا"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "معلومات",
+      "examples": [
+        {
+          "text": "robot"
+        },
+        {
+          "text": "اوقات تشغيل الربوت"
+        },
+        {
+          "text": "ربوت"
+        },
+        {
+          "text": "متى يتوفر حجز الربوت"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "sys-date",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-number",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-percentage",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-time",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "امراض",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "سرطان",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "كورنا",
+          "synonyms": [
+            "covid 19"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "ياهلا ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I didn't understand. You can try rephrasing."
+              },
+              {
+                "text": "Can you reword your statement? I'm not understanding."
+              },
+              {
+                "text": "I didn't get your meaning."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_8_1626175916017",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "what is the right day?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "slot_10_1626176198907",
+      "event_name": "focus",
+      "dialog_node": "handler_5_1626176198925",
+      "previous_sibling": "handler_6_1626176198925"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1626176244468",
+      "context": {
+        "time": "@sys-time"
+      },
+      "conditions": "@sys-time",
+      "event_name": "input",
+      "dialog_node": "handler_5_1626176244469"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1626176198907",
+      "context": {
+        "date": "@sys-date"
+      },
+      "conditions": "@sys-date",
+      "event_name": "input",
+      "dialog_node": "handler_6_1626176198925"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "what is the right time?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "slot_10_1626176244468",
+      "event_name": "focus",
+      "dialog_node": "handler_9_1626176244469",
+      "previous_sibling": "handler_5_1626176244469"
+    },
+    {
+      "type": "standard",
+      "title": "ترحيب ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "وعليكم السلام\n"
+              },
+              {
+                "text": "اهلن\n"
+              },
+              {
+                "text": "hello"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "#ترحيب",
+      "dialog_node": "node_1_1626171902632",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "frame",
+      "title": "معلومات ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Done , Goodbye"
+              },
+              {
+                "text": ""
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#معلومات",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_8_1626175916017",
+      "previous_sibling": "node_1_1626171902632"
+    },
+    {
+      "type": "slot",
+      "parent": "node_8_1626175916017",
+      "variable": "$date",
+      "dialog_node": "slot_10_1626176198907"
+    },
+    {
+      "type": "slot",
+      "parent": "node_8_1626175916017",
+      "variable": "$time",
+      "dialog_node": "slot_10_1626176244468",
+      "previous_sibling": "slot_10_1626176198907"
+    },
+    {
+      "type": "standard",
+      "title": "مرحبا ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "مرحبا بك"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "None of the above"
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "intent_classification": {
+      "training_backend_version": "v2"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "تحدث",
+  "language": "en",
+  "description": ""
+}
